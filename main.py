@@ -13,6 +13,7 @@ def login():
         try:
             add_df(email, username, community_to_ID(community), password)
             print("OK!")
+            return 1
         except:
             print("error signing in")
             login()
@@ -30,8 +31,13 @@ def login():
 
 def Dashboard():
     print("Dash")
+    return 1
 
 def Community_View():
     print("Community_View")
 
-login()
+login_value = login()
+if login_value == 1:
+    dash_value = Dashboard()
+    if dash_value == 1:
+        comm = Community_View()
