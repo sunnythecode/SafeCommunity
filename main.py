@@ -12,6 +12,11 @@ from stateHelper import *
 
 ###DISCLAIMER -- Cases and death information is based off of a similar dataset to google. Google uses the same dataset for certain places, but differs in others.
 
+f = open('StateSaver.txt', 'r')
+contents= f.read()
+print("Your State Is Currently: " + str(contents))
+stateG = str(contents)
+
 def login():
     print("\n")
     print("-------LOGIN-------")
@@ -47,6 +52,12 @@ def Dashboard():
 def Community_View():
     print("Community_View")
 
+def changeState():
+  print("What is your state? (ex Arizona)")
+  x = input()
+  global stateG 
+  stateG = str(x)
+  
 #login_value = login()
 #if login_value == 1:
 #    dash_value = Dashboard()
@@ -69,23 +80,14 @@ yesterStateInfo = findState(stateG, yesterdaysInfo)
 
 dailySummary(stateInfo, yesterStateInfo)
 
+#Must be last in order to correctly save the state of the user.
+
 changeState()
 
-#Must be last in order to correctly save the state of the user.
 file1 = open("StateSaver.txt", "w") 
 str1 = str(stateG)
 file1.write(str1)
 file1.close()
-
-
-
-
-
-
-
-
-
-
 
 
 

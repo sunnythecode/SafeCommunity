@@ -8,6 +8,8 @@ import pandas as pd
 import requests
 from dbhelper import *
 
+
+
 def getDateAndFormat(backDays):
   today = date.today()
   today = str(today - timedelta(days=backDays))
@@ -91,13 +93,6 @@ def dailySummary(state, yesterState):
   print()
   print("There have been a total of " + str(int(getConfirmedCases(state)) - int(getConfirmedCases(yesterState))) + " confirmed cases TODAY in your state of " + str(state[0]).upper() + ".")
 
-def changeState():
-  print("What is your state? (ex Arizona)")
-  x = input()
-  global stateG 
-  stateG = str(x)
 
-f = open('StateSaver.txt', 'r')
-contents= f.read()
-print("Your State Is Currently: " + str(contents))
-stateG = str(contents)
+
+
