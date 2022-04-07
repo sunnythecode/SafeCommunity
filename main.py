@@ -53,12 +53,6 @@ def Community_View():
 #    if dash_value == 1:
 #       comm = Community_View()
 
-def getDateAndFormat(backDays):
-  today = date.today()
-  today = str(today - timedelta(days=backDays))
-  formmattedDate = today[-5] + today[-4] + '-' + today[-2] + today[-1] + '-' + today[0:4]
-  #formats the date in a way the url accepts
-  return(formmattedDate)
 
 
 today = getDateAndFormat(1)
