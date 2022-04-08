@@ -1,6 +1,7 @@
 
 import pandas as pd
 import os
+from scraper import *
 df = pd.read_csv('community.csv', index_col=0)
 settings = pd.read_csv('CommunitySettings.csv', index_col=0)
 
@@ -39,6 +40,15 @@ def add_community(Name, CovidAlert, County):
     else:
         return -1
 
+def UserCommunity(username):
+    user = list(df['Name']).index(username)
+    cID = df.loc[int(user)]['CommunityID']
+    return(list(df.loc[df['CommunityID'] == cID]['Name']))
+
+def UserCommunityCases(username):
+    user = list(df['Name']).index(username)
+    cID = df.loc[int(user)]['CommunityID']
+    return(scrapeCounty(settings.loc[int(cID)]['County']))
 if __name__ == "__main__":
-    print(isUser("Joe", "pass"))
+    print(UserCommunityCases('Sandeep'))
 #print(settings)

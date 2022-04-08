@@ -1,13 +1,6 @@
 #python -m pip install beautifulsoup4
-import csv
-import re
-from datetime import date, timedelta
-from functools import reduce
-import math
-from bs4 import BeautifulSoup
-import pandas as pd
-import requests
 from dbhelper import *
+<<<<<<< Updated upstream
 from stateHelper import *
 
 ###DISCLAIMER -- Cases and death information is based off of a similar dataset to google. Google uses the same dataset for certain places, but differs in others.
@@ -16,6 +9,9 @@ f = open('StateSaver.txt', 'r')
 contents= f.read()
 print("Your State Is Currently: " + str(contents))
 stateG = str(contents)
+=======
+from scraper import *
+>>>>>>> Stashed changes
 
 def login():
     print("\n")
@@ -36,7 +32,7 @@ def login():
     elif signup in ["n", "N", "No", "no"]:
         if isUser(username, password):
             print('OK!')
-            return 1
+            return [1, username]
         else:
             print("Incorrect Login Information")
             login()
@@ -45,13 +41,24 @@ def login():
         
 
 
-def Dashboard():
-    print("Dash")
+def Dashboard(username, county_data):
+    print('\n')
+    print("-------DASHBOARD-------")
+    print('USERS:')
+    print(county_data)
+    print('\n')
+    print('TODAYS CASES: ')
+    print(UserCommunityCases(username))
+    print('\n')
+    print('1 Settings')
+    print('2 Logout')
+    input("Enter 1/2: ")
     return 1
 
 def Community_View():
     print("Community_View")
 
+<<<<<<< Updated upstream
 def changeState():
   print("What is your state? (ex Arizona)")
   x = input()
@@ -91,3 +98,11 @@ file1.close()
 
 
 
+=======
+login_value = login()
+user_county_data = scrapeCounty(login_value[1])
+if login_value[0] == 1:
+    dash_value = Dashboard(login_value[1], user_county_data)
+    if dash_value == 1:
+        comm = Community_View()
+>>>>>>> Stashed changes

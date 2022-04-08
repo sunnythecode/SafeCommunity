@@ -1,19 +1,24 @@
-#Scrape code for covid cases
-#python -m pip install beautifulsoup4
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from PIL import Image
+from selenium.webdriver.common.keys import Keys
+import os
+import time
+chromedriver = '/Users/sandeep/Downloads/chromedriver 5'
 
-rom datetime import date, timedelta
-from functools import reduce
-import math
-from bs4 import BeautifulSoup
-today = date.today()
-
-today = str(today - timedelta(days=1))
-print(today)
-formmattedDate = today[-5] + today[-4] + '-' + today[-2] + today[-1] + '-' + today[0:4]
-print(formmattedDate)
-
-def scrape():
-#Uses a public dataset for information on COVID cases based in states. Dataset is updated at the end of every day. The link will take you to the raw data, which is fetched by webscraping the html.
-    response = requests.get('https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports_us/' + formmattedDate+ '.csv')
-    soup = BeautifulSoup(response.content, 'html.parser')
-    return str(soup).split()
+def scrapeCounty(County):
+    drive = webdriver.Chrome(chromedriver)
+    drive = webdriver.chrome.options.Options()
+    drive.headless = True
+    drive.add_argument('--window-size=1280,1800')
+    driver = webdriver.Chrome(executable_path= chromedriver, options= drive)
+    countyIN = County.split()
+    query = ""
+    for i in countyIN:
+        query = query + i + '+'
+    query = query[:-1] + '+covid'
+    driver.get('https://www.google.com/search?q='+ query + '&safe=active&ssui=on')
+    return(driver.find_element_by_class_name('h5Hgwe').text)
+if __name__ == "__main__":
+    print(scrapeCounty('Los Angeles County'))
+#print(settings)
