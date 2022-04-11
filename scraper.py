@@ -18,7 +18,13 @@ def scrapeCounty(County):
         query = query + i + '+'
     query = query[:-1] + '+covid'
     driver.get('https://www.google.com/search?q='+ query + '&safe=active&ssui=on')
-    return(driver.find_element_by_class_name('h5Hgwe').text)
+    driver.save_screenshot('/Users/sandeep/Documents/Create__Task/SCRAPE.png')
+    #return(driver.find_element_by_class_name('h5Hgwe'))
+    try:
+        element = driver.find_element_by_xpath("/html/body/div[7]/div/div[10]/div[3]/div[4]/div/div/div/div/div/div/div[2]/div[1]/div/div[1]/table/tbody/tr/td[1]/div[3]")
+    except:
+        return '0'
+    return (element.text)
 if __name__ == "__main__":
-    print(scrapeCounty('Los Angeles County'))
+    print(scrapeCounty('Alameda County'))
 #print(settings)

@@ -49,6 +49,16 @@ def UserCommunityCases(username):
     user = list(df['Name']).index(username)
     cID = df.loc[int(user)]['CommunityID']
     return(scrapeCounty(settings.loc[int(cID)]['County']))
+
+def change_email(username, new_email):
+    user = list(df['Name']).index(username)
+    #return df.loc[int(user)]['Email']
+    df.at[user, 'Email'] = new_email #.replace(to_replace=df.loc[int(user)]['Email'], value = new_email)
+    if os.path.exists('/Users/sandeep/Documents/Create__Task/community.csv'):
+        os.remove('/Users/sandeep/Documents/Create__Task/community.csv')
+    df.to_csv("community.csv")
+    return(df.at[user, 'Email'])
+
 if __name__ == "__main__":
-    print(UserCommunityCases('Sandeep'))
+    print(change_email('Joe', 'example2@gmail.com'))
 #print(settings)

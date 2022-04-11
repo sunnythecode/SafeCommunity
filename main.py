@@ -1,4 +1,5 @@
 #python -m pip install beautifulsoup4
+from hashlib import new
 from dbhelper import *
 from scraper import *
 
@@ -14,7 +15,7 @@ def login():
         try:
             add_df(email, username, community_to_ID(community), password)
             print("OK!")
-            return 1
+            return [1, username]
         except:
             print("error signing in")
             login()
@@ -33,23 +34,46 @@ def login():
 def Dashboard(username, county_data):
     print('\n')
     print("-------DASHBOARD-------")
-    print('USERS:')
-    print(county_data)
-    print('\n')
-    print('TODAYS CASES: ')
-    print(UserCommunityCases(username))
+    print('Community Members:')
+    print(UserCommunity(username))
+    print('TODAYS CASES:' + str(county_data) + '\n')
     print('\n')
     print('1 Settings')
     print('2 Logout')
-    input("Enter 1/2: ")
+    print('3 Alert Community')
+    exit = input("Enter 1/2/3: ")
+    return exit
+
+def Community_Alert():
+    print("-------Alert Community-------")
+    print("Type Message to be sent:")
+    message = input()
+
+def Settings(username):
+    print("-------Settings-------")
+    print("Change email: ")
+    new_email = input("Enter new email here: ")
+    change_email(username, new_email)
     return 1
 
-def Community_View():
-    print("Community_View")
+
+def loop():
+    login_value = login()
+    print("Loading...")
+    user_county_data = UserCommunityCases(login_value[1])
+    if login_value[0] == 1:
+        dash_value = Dashboard(login_value[1], user_county_data)
+        if dash_value == 1:
+            sett = Settings(login_value[0])
+
 
 login_value = login()
-user_county_data = scrapeCounty(login_value[1])
+print("Loading...")
+user_county_data = UserCommunityCases(login_value[1])
 if login_value[0] == 1:
     dash_value = Dashboard(login_value[1], user_county_data)
     if dash_value == 1:
-        comm = Community_View()
+        sett = Settings(login_value[0])
+    elif dash_value == 2:
+        login()
+    
