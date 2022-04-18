@@ -5,6 +5,16 @@ from selenium.webdriver.common.keys import Keys
 import os
 import time
 chromedriver = '/Users/sandeep/Downloads/chromedriver 5'
+from functools import reduce
+import re
+
+
+
+def urlCreate(county):
+    pattern = r" "
+    new_str = re.sub(pattern, "+", reduce(lambda x, y: x+y, county))
+    url = "https://www.google.com/search?q=" + str(new_str) + '+covid+cases'
+    return url
 
 def scrapeCounty(County):
     drive = webdriver.Chrome(chromedriver)
@@ -12,12 +22,8 @@ def scrapeCounty(County):
     drive.headless = True
     drive.add_argument('--window-size=1280,1800')
     driver = webdriver.Chrome(executable_path= chromedriver, options= drive)
-    countyIN = County.split()
-    query = ""
-    for i in countyIN:
-        query = query + i + '+'
-    query = query[:-1] + '+covid'
-    driver.get('https://www.google.com/search?q='+ query + '&safe=active&ssui=on')
+    query = urlCreate(County)
+    driver.get(query)
     driver.save_screenshot('/Users/sandeep/Documents/Create__Task/SCRAPE.png')
     #return(driver.find_element_by_class_name('h5Hgwe'))
     try:
@@ -26,5 +32,5 @@ def scrapeCounty(County):
         return '0'
     return (element.text)
 if __name__ == "__main__":
-    print(scrapeCounty('Alameda County'))
+    print(scrapeCounty('Santa Clara county'))
 #print(settings)
