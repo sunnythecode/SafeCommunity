@@ -39,6 +39,10 @@ def login():
 def Dashboard(username, county_data):
     print('\n')
     print("-------DASHBOARD-------")
+    communityName = UserCommunityName(username)[0]
+    county = UserCommunityName(username)[1]
+    print("Community: " + communityName)
+    print("Location: " + county)
     print('Community Members:')
     print(UserCommunity(username)) #Function defined in dbhelper, gets all other users within the same community
     print('TODAYS CASES:' + str(county_data) + '\n')

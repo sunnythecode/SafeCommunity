@@ -28,7 +28,11 @@ def community_to_ID(community): #Converts community name to ID if exists, else r
     except:
         return -1
 
-
+def UserCommunityName(username):
+    user = list(df['Name']).index(username)
+    name = settings.loc[df.loc[int(user)]['CommunityID']]['Name']
+    county = settings.loc[df.loc[int(user)]['CommunityID']]['County']
+    return [name, county]
 
 def UserCommunity(username): #Returns list of members in same community as given username
     user_list = list(df['Name'])
@@ -37,7 +41,7 @@ def UserCommunity(username): #Returns list of members in same community as given
             user_index = i
             break
         else:
-            return -1
+            None
     cID = df.loc[int(user_index)]['CommunityID']
     return(list(df.loc[df['CommunityID'] == cID]['Name']))
 
@@ -72,5 +76,5 @@ def get_message(username):
 
 
 if __name__ == "__main__":
-    print(get_message("Test3"))
+    print(UserCommunity("Test4"))
     #print(settings)
