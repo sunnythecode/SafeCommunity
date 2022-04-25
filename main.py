@@ -79,7 +79,27 @@ def Settings(username):
     return 1
 
 
+def update():
+    print("What is your state? (ex Arizona)")
+    myState = input()
+    today = getDateAndFormat(2)
+    yesterday = getDateAndFormat(3)
+    #Formats the date fetching the date from a library called dateTime. Data is from yesterday
 
+    TodayRes = scrapeState(today)
+    YesterdayRes = scrapeState(yesterday)
+    #Scrape takes in a date and returns the data from all states for that date Scraping is done using a library called BeautifulSoup4
+
+    todaysInfo = arrange(TodayRes)
+    yesterdaysInfo = arrange(YesterdayRes)
+    #Sorts the data into format [STATE NAME, COUNTRY, LAT, LONG, CASES, DEATHS, etc] for all states, returns a list of statesLists 
+
+    stateInfo = findState(myState, todaysInfo)
+    yesterStateInfo = findState(myState, yesterdaysInfo)
+    #Given a state name, returns it's data
+
+    dailySummary(stateInfo, yesterStateInfo)
+    #Prints data fetched from the list. Yesterday is subtracted from today to get the daily deaths.
 
 
 def app_loop(user): #Function loops dashboard, settings, and community alert functions for the user allowing for navigation
@@ -96,26 +116,7 @@ def app_loop(user): #Function loops dashboard, settings, and community alert fun
         Community_Alert(user)
         app_loop(user)
     elif dash_choice == '4':
-        print("What is your state? (ex Arizona)")
-        myState = input()
-        today = getDateAndFormat(2)
-        yesterday = getDateAndFormat(3)
-        #Formats the date fetching the date from a library called dateTime. Data is from yesterday
-
-        TodayRes = scrapeState(today)
-        YesterdayRes = scrapeState(yesterday)
-        #Scrape takes in a date and returns the data from all states for that date Scraping is done using a library called BeautifulSoup4
-
-        todaysInfo = arrange(TodayRes)
-        yesterdaysInfo = arrange(YesterdayRes)
-        #Sorts thhe data into format [STATE NAME, COUNTRY, LAT, LONG, CASES, DEATHS, etc] for all states, returns a list of statesLists 
-
-        stateInfo = findState(myState, todaysInfo)
-        yesterStateInfo = findState(myState, yesterdaysInfo)
-        #Given a state name, returns it's data
-
-        dailySummary(stateInfo, yesterStateInfo)
-        #Prints data fetched from the list. Yesterday is subtracted from today to get the daily deaths.
+        update()
 username = login()[1]
 app_loop(username)
 
