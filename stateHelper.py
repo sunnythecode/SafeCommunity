@@ -47,8 +47,6 @@ def findState(state, formattedRes):
       foundState = (item)
       break
   return foundState
-  
-#Selection is demonstrated here. I am selecting a certain state from a list of all states. I am doing this by iterating through a list and selecting the array within the list of list whose first position matches that of the inputted state.
 
   
 def getCountry(state):
@@ -56,21 +54,21 @@ def getCountry(state):
     return state[1]
   else:
     return "Not Available"
-    #Gets the country by using selection
+    #Gets the country
 
 def getConfirmedCases(state):
   if state[5] != "":
     return state[5]
   else:
     return "Not Available"
-    #Gets the cases by using selection
+    #Gets the cases
 
 def getDeaths(state):
   if state[6] != "":
     return state[6]
   else:
     return "Not Available"
-    #Gets the deaths by using selection
+    #Gets the deaths
 
 def dailySummary(state, yesterState):
   print()
