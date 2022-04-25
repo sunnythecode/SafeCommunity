@@ -1,3 +1,4 @@
+#Start of stateHelper
 from datetime import date, timedelta
 from functools import reduce
 from bs4 import BeautifulSoup
@@ -35,10 +36,10 @@ def arrange(res):
       tempList.append(item)
 
   statesList.remove(statesList[0])
-  newStatesList = []
+  formattedRes = []
   for item in statesList:
-    newStatesList.append(item.split(","))
-  return newStatesList
+    formattedRes.append(item.split(","))
+  return formattedRes
   #Formats the lis in format [STATE NAME, COUNTRY, LAT, LONG, CASES, DEATHS, etc] for all states, returns a list of statesLists 
 
 def findState(state, formattedRes):
@@ -47,8 +48,15 @@ def findState(state, formattedRes):
       foundState = (item)
       break
   return foundState
-
   
+
+def getRate(state):
+  if state[-2] != "":
+    return state[-2]
+  else:
+    return "Not Available"
+    #Gets the Testing Rate
+
 def getCountry(state):
   if state[1] != "":
     return state[1]
@@ -78,8 +86,10 @@ def dailySummary(state, yesterState):
   print()
   print("There have been a total of " + str(int(getDeaths(state)) - int(getDeaths(yesterState))) + " deaths TODAY in your state of " + str(state[0]).upper() + ".")
   print()
+  print("The testing rate is " + str(getRate(state)) + " in your state of " + str(state[0]).upper() + ".")
 
 #Prints wanted information
 
 
 
+#End of stateHelper
