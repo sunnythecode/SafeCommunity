@@ -2,6 +2,7 @@
 
 from dbhelper import *
 from scraper import *
+from stateHelper import *
 
 #Login function for user
 def login():
@@ -51,9 +52,10 @@ def Dashboard(username, county_data):
     print('1 Settings')
     print('2 Logout')
     print('3 Alert Community')
-    choice = input("Enter 1/2/3: ")
-    if not(choice in ['1', '2', '3']):
-        print("Please enter an option from 1-3")
+    print('4 View State Info')
+    choice = input("Enter 1/2/3/4: ")
+    if not(choice in ['1', '2', '3', '4']):
+        print("Please enter an option from 1-4")
         return Dashboard() #Restart function in case of improper input
     else: 
         return choice #Exit code used to choose next function
@@ -77,7 +79,26 @@ def Settings(username):
     return 1
 
 
+def update(myState):
+    
+    today = getDateAndFormat(2)
+    yesterday = getDateAndFormat(3)
+    #Formats the date fetching the date from a library called dateTime. Data is from yesterday
 
+    TodayRes = scrapeState(today)
+    YesterdayRes = scrapeState(yesterday)
+    #Scrape takes in a date and returns the data from all states for that date Scraping is done using a library called BeautifulSoup4
+
+    todaysInfo = arrange(TodayRes)
+    yesterdaysInfo = arrange(YesterdayRes)
+    #Sorts the data into format [STATE NAME, COUNTRY, LAT, LONG, CASES, DEATHS, etc] for all states, returns a list of statesLists 
+
+    stateInfo = findState(myState, todaysInfo)
+    yesterStateInfo = findState(myState, yesterdaysInfo)
+    #Given a state name, returns it's data
+
+    dailySummary(stateInfo, yesterStateInfo)
+    #Prints data fetched from the list. Yesterday is subtracted from today to get the daily deaths.
 
 
 def app_loop(user): #Function loops dashboard, settings, and community alert functions for the user allowing for navigation
@@ -93,6 +114,14 @@ def app_loop(user): #Function loops dashboard, settings, and community alert fun
     elif dash_choice == '3':
         Community_Alert(user)
         app_loop(user)
+    elif dash_choice == '4':
+        print("Here's some sample state data")
+        update("Alabama")
+        update("Alaska")
+        print("Now you try")
+        print("What is your state? (ex Arizona)")
+        userState = input()
+        update(str(userState))
 username = login()[1]
 app_loop(username)
 
