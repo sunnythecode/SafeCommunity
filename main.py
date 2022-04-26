@@ -79,29 +79,8 @@ def Settings(username):
     return 1
 
 
-def update():
-    print("What is your state? (ex Arizona)")
-    myState = input()
-    today = getDateAndFormat(2)
-    yesterday = getDateAndFormat(3)
-    #Formats the date fetching the date from a library called dateTime. Data is from yesterday
-
-    TodayRes = scrapeState(today)
-    YesterdayRes = scrapeState(yesterday)
-    #Scrape takes in a date and returns the data from all states for that date Scraping is done using a library called BeautifulSoup4
-
-    todaysInfo = arrange(TodayRes)
-    yesterdaysInfo = arrange(YesterdayRes)
-    #Sorts the data into format [STATE NAME, COUNTRY, LAT, LONG, CASES, DEATHS, etc] for all states, returns a list of statesLists 
-
-    stateInfo = findState(myState, todaysInfo)
-    yesterStateInfo = findState(myState, yesterdaysInfo)
-    #Given a state name, returns it's data
-
-    dailySummary(stateInfo, yesterStateInfo)
-    #Prints data fetched from the list. Yesterday is subtracted from today to get the daily deaths.
-
-def updateSample(myState):
+def update(myState):
+    
     today = getDateAndFormat(2)
     yesterday = getDateAndFormat(3)
     #Formats the date fetching the date from a library called dateTime. Data is from yesterday
@@ -137,10 +116,12 @@ def app_loop(user): #Function loops dashboard, settings, and community alert fun
         app_loop(user)
     elif dash_choice == '4':
         print("Here's some sample state data")
-        updateSample("Alabama")
-        updateSample("Alaska")
+        update("Alabama")
+        update("Alaska")
         print("Now you try")
-        update()
+        print("What is your state? (ex Arizona)")
+        userState = input()
+        update(str(userState))
 username = login()[1]
 app_loop(username)
 
