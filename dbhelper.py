@@ -10,6 +10,7 @@ settings = pd.read_csv('CommunitySettings.csv', index_col=0) #Settings is the se
 
 def add_df(Email, Name, CommunityID, PW): #Adds a user to the database given email, name, communityID, and password
     global df
+    assert CommunityID != -1 #Make sure Community exists before continuing
     df1 = pd.DataFrame([[Email, Name, CommunityID, PW]], columns=['Email', 'Name', 'CommunityID', 'PW']) #create a new row for the new user's information
     df = df.append(df1, ignore_index=True) #Add row to main dataframe
     if os.path.exists('/Users/sandeep/Documents/Create__Task/community.csv'): #Update csv by deleting old one and creating a new one with the same name
@@ -22,10 +23,12 @@ def isUser(username, PW): #Checks if username/pw combo exists
 
 def community_to_ID(community): #Converts community name to ID if exists, else returns -1
     global settings
-    comm_list = list(settings['Name'])
-    try:
-        return(int(comm_list.index(community)))
-    except:
+    if (community in list(settings['Name'])):
+        for i in range(0, len(list(settings['Name']))):
+            if list(settings['Name'])[i] == community:
+                return i
+    else:
+        print("Community Not found")
         return -1
 
 def UserCommunityName(username):
@@ -36,14 +39,18 @@ def UserCommunityName(username):
 
 def UserCommunity(username): #Returns list of members in same community as given username
     user_list = list(df['Name'])
+    cID_list = list(df['CommunityID'])
     for i in range(len(user_list)):
         if user_list[i] == username:
             user_index = i
             break
         else:
             None
-    cID = df.loc[int(user_index)]['CommunityID']
-    return(list(df.loc[df['CommunityID'] == cID]['Name']))
+    members = []
+    for i in range(len(cID_list)):
+        if cID_list[i] == df.loc[int(user_index)]['CommunityID']:
+            members.append(df.loc[i]['Name'])
+    return(members)
 
 def UserCommunityCases(username): #Number of Cases in community of user
     user = list(df['Name']).index(username)
@@ -73,8 +80,8 @@ def get_message(username):
     user = list(df['Name']).index(username)
     cID = df.loc[int(user)]['CommunityID']
     return(settings.at[cID, "Message"])
-
+#End of dbhelper.py
 
 if __name__ == "__main__":
-    print(UserCommunity("Test4"))
+    print(community_to_ID('None'))
     #print(settings)

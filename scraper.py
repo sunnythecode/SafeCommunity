@@ -26,4 +26,4 @@ def scrapeCounty(County): #Scrape the google covid page for new cases, if shown
         return '0'
     return (element.text)
 
-
+#End of scraper.py
